@@ -9,13 +9,10 @@ export const HomePage = () => {
         style={{ backgroundImage: "url(img/homepagetumbuhan3.jpg)" }}>
       </div>
       <div className="bg-raven w-full h-full absolute top-0 left-0 opacity-50">
-
       </div>
       <div className="flex flex-col z-10">
-        <h1 className="text-putih drop-shadow-sm text-5xl font-utama font-bold z-10 xl:text-7xl mb-3">Sistem tetes tanaman</h1>
-        <p className="text-putih drop-shadow-sm text-base font-poppins z-10 mb-5 xl:max-w-lg lg:mx-auto lg:text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam consequatur sint molestias ipsa incidunt non nemo debitis architecto explicabo minus.</p>
-        {/* <button className="z-10 text-raven text-base font-utama font-semibold bg-putih px-5 py-3 rounded-xl w-40 lg:mx-auto">Get Started</button> */}
-        {/* <ButtonUi className='lg:mx-auto'></ButtonUi> */}
+        <h1 className="text-putih drop-shadow-sm text-5xl font-utama font-bold z-10 xl:text-7xl mb-3 lg:mx-auto lg:max-w-3xl xl:max-w-5xl">Sistem tetes tanaman</h1>
+        <p className="text-putih drop-shadow-sm text-base font-poppins z-10 mb-5 lg:mx-auto lg:max-w-3xl xl:max-w-3xl lg:text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam consequatur sint molestias ipsa incidunt non nemo debitis architecto explicabo minus.</p>
       </div>
     </section>
   )

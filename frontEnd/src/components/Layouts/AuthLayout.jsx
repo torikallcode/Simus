@@ -9,7 +9,7 @@ export const AuthLayout = () => {
     <div className=''>
       <Navbar></Navbar>
       <HomePage></HomePage>
-      <div className='max-w-7xl mx-auto py-7'>
+      <div className='lg:max-w-4xl  xl:max-w-7xl mx-auto py-7'>
         <Main></Main>
       </div>
     </div>

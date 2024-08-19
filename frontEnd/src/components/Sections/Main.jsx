@@ -18,11 +18,10 @@ export const Main = () => {
   });
 
   useEffect(() => {
-    // Mengambil data dari backend menggunakan fetch
     fetch('http://localhost:3000/kelembaban')
       .then(response => response.json())
       .then(data => {
-        console.log('Data dari backend:', data); // Log untuk memastikan data diambil dengan benar
+        console.log('Data dari backend:', data);
 
         if (data.length > 0) {
           const latest = data[data.length - 1];
@@ -45,7 +44,6 @@ export const Main = () => {
       });
   }, []);
 
-  // Fungsi untuk memformat waktu
   const formatDateTime = (datetime) => {
     const date = new Date(datetime);
     const formattedDate = date.toLocaleDateString('id-ID', {
@@ -71,11 +69,11 @@ export const Main = () => {
         <div className='flex justify-between items-start gap-x-5 rounded-xl w-full h-32 relative lg:h-full'>
           <div className='flex justify-center relative items-center w-full h-full rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 bg-gray-900 px-2'>
             <h1 className='font-utama text-raven2 absolute top-3 left-3'>Status</h1>
-            <h2 className='text-2xl text-center font-utama text-raven2'>{latestData.status}</h2>
+            <h2 className='text-lg font-medium text-center font-utama text-raven2'>{latestData.status}</h2>
           </div>
           <div className='bg-gray-900 flex justify-center relative items-center w-full h-full rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 px-2'>
             <h1 className='font-utama text-raven2 absolute top-3 left-3'>Time</h1>
-            <h2 className='text-md text-center font-utama text-raven2'>{latestData.waktu}</h2>
+            <h2 className='text-md font-medium text-center font-utama text-raven2'>{latestData.waktu}</h2>
           </div>
         </div>
       </div>
@@ -84,20 +82,20 @@ export const Main = () => {
         <Table className="max-w-2xl mx-auto border overflow-x-auto rounded-lg overflow-hidden">
           <TableHeader className="bg-[#609966]">
             <TableRow>
-              <TableHead className="w-[100px] text-putih">No</TableHead>
-              <TableHead className="text-putih">Kelembaban</TableHead>
-              <TableHead className="text-putih">Status</TableHead>
-              <TableHead className="text-right text-putih">Time</TableHead>
+              <TableHead className="text-putih text-center">No</TableHead>
+              <TableHead className="text-putih text-center">Kelembaban</TableHead>
+              <TableHead className="text-putih text-center">Status</TableHead>
+              <TableHead className="text-putih text-center">Time</TableHead>
             </TableRow>
           </TableHeader>
           {chartData.length > 0 && (
             <TableBody className="bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10">
               {chartData.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell className="font-medium text-raven font-poppins">{item.id}</TableCell>
-                  <TableCell className="text-raven font-poppins">{item.kelembaban}</TableCell>
-                  <TableCell className="font-medium text-raven font-poppins">{item.status}</TableCell>
-                  <TableCell className="text-raven font-poppins text-right">{item.waktu}</TableCell>
+                  <TableCell className=" text-raven font-poppins text-center">{item.id}</TableCell>
+                  <TableCell className="text-raven font-poppins text-center ">{item.kelembaban}</TableCell>
+                  <TableCell className=" text-raven font-poppins text-center">{item.status}</TableCell>
+                  <TableCell className="text-raven font-poppins text-center ">{item.waktu}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

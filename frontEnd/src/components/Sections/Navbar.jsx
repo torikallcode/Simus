@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 export const Navbar = () => {
-
   const [isScrolled, setIsScrolled] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
-
 
   useEffect(() => {
     const twoScroll = () => {
