@@ -101,7 +101,6 @@ export const Main = () => {
     })
     .then(data => {
       console.log('Data yang diterima:', data);
-      // Lakukan sesuatu dengan data yang diterima
     })
     .catch(error => {
       console.error('Ada masalah saat fetching data:', error);
@@ -116,22 +115,21 @@ export const Main = () => {
   }
 
   return (
-    <main className='px-3 py-10 pb-[100rem]'>
-      <h1 className='text-3xl font-utama text-raven2 font-bold mb-10'>Statistik Data</h1>
-      <div className='grid grid-cols-1 lg:grid-cols-3 gap-7 justify-center gap-x-7 mb-24'>
-        <div className=' py-5 rounded-xl bg-gradient-to-r from-biru to-blue-500 w-full h-72 flex justify-center items-center relative'>
-          <h1 className='text-white font-utama text-lg absolute top-5 left-5'>Volume</h1>
-          <SemiCircularProgressBar progress={375} />
+    <main className='px-3 py-10'>
+      <h1 className='text-3xl font-utama text-raven2 font-bold mb-7'>Statistik Data</h1>
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-7 justify-center gap-x-7 mb-24 lg:mx-auto'>
+        <div className=' py-5 rounded-xl bg-[#609966] w-full h-72 flex justify-center items-center relative'>
+          <h1 className='text-white font-utama text-lg absolute top-5 left-5'>Tingkat kelembapan</h1>
+          <SemiCircularProgressBar progress={35} />
         </div>
-        <div className='flex justify-between items-start gap-x-5 rounded-xl w-full h-32 relative'>
+        <div className='flex justify-between items-start gap-x-5 rounded-xl w-full h-32 relative lg:h-full'>
           <div className='flex justify-center relative items-center w-full h-full rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 bg-gray-900'>
-            <h1 className='font-utama text-raven2 absolute top-3 left-3'>Prediksi</h1>
-            <h2 className='text-3xl font-utama text-raven2'>2.5 jam</h2>
+            <h1 className='font-utama text-raven2 absolute top-3 left-3'>Status</h1>
+            <h2 className='text-3xl font-utama text-raven2'>Kering</h2>
           </div>
           <div className='bg-gray-900 flex justify-center relative items-center w-full h-full rounded-xl  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
-            <h1 className='font-utama text-raven2 absolute top-3 left-3'>laju</h1>
-            <h2 className='text-3xl font-utama text-raven2'>3s</h2>
-
+            <h1 className='font-utama text-raven2 absolute top-3 left-3'>Time</h1>
+            <h2 className='text-3xl font-utama text-raven2'>00:00</h2>
           </div>
         </div>
         {/* <div className='py-5 rounded-xl bg-gray-500 w-full h-72 flex justify-center items-center bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
@@ -148,23 +146,25 @@ export const Main = () => {
         </div> */}
       </div>
       <div className='flex flex-col  gap-x-10 '>
-        <h1 className='text-3xl font-utama text-raven2 font-bold mb-10'>History Data</h1>
-        <Table className="max-w-2xl mx-auto border overflow-x-auto">
+        <h1 className='text-3xl font-utama text-raven2 font-bold mb-7'>History Data</h1>
+        <Table className="max-w-2xl mx-auto border overflow-x-auto rounded-lg overflow-hidden">
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-          <TableHeader className="bg-biru">
+          <TableHeader className="bg-[#609966]">
             <TableRow>
-              <TableHead className="w-[100px] text-putih">Invoice</TableHead>
+              <TableHead className="w-[100px] text-putih">No</TableHead>
+              <TableHead className="text-putih">Kelemababan</TableHead>
               <TableHead className="text-putih">Status</TableHead>
-              <TableHead className="text-putih">Method</TableHead>
-              <TableHead className="text-right text-putih">Amount</TableHead>
+              <TableHead className="text-right text-putih">Time</TableHead>
             </TableRow>
           </TableHeader>
-          {data.length > 0 && (
+          {chartData.length > 0 && (
             <TableBody className="bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10">
-              {data.map((item) => (
+              {chartData.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium text-raven font-poppins">{item.id}</TableCell>
-                  <TableCell className="text-raven font-poppins">{item.weight_value}</TableCell>
+                  <TableCell className="text-raven font-poppins">{item.name}</TableCell>
+                  <TableCell className="font-medium text-raven font-poppins">{item.uv}</TableCell>
+                  <TableCell className="text-raven font-poppins">{item.pv}</TableCell>
                   {/* <TableCell className="text-raven font-poppins">{item.pv}</TableCell>
                   <TableCell className="text-right text-raven font-poppins">{item.amt}</TableCell> */}
                 </TableRow>
