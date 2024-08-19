@@ -6,7 +6,7 @@ export const HomePage = () => {
     <section className="w-full h-screen flex flex-col lg:flex-row gap-y-7 justify-center items-center mx-auto relative p-5">
       <div
         className="bg-[#222631] w-full h-full bg-cover bg-center absolute top-0 left-0"
-        style={{ backgroundImage: "url(img/homepagetumbuhan.jpg)" }}>
+        style={{ backgroundImage: "url(img/homepagetumbuhan3.jpg)" }}>
       </div>
       <div className="bg-raven w-full h-full absolute top-0 left-0 opacity-50">
 

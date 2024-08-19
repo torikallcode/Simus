@@ -1,4 +1,4 @@
-import React, { useState, useEffect, PureComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -8,151 +8,84 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SimpleBarChart } from '../Fragments/SimpleBarChart';
-import { SimpleAreaChart } from '../Fragments/SimpleAreaChart';
-import { CompossedBar } from '../Fragments/CompossedBar';
 import SemiCircularProgressBar from '../Fragments/SemiCircularProgressBar';
-// import axios from 'axios';
-
-
-
-// Static data for the bar chart
-const chartData = [
-  {
-    id: 1,
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    id: 2,
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    id: 3,
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    id: 4,
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    id: 5,
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    id: 6,
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    id: 7,
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
-
-const totalData = chartData.map((item) => item.pv).reduce((a, b) => a + b, 0);
-
-console.log(totalData);
-
 export const Main = () => {
-  const [data, setData] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [latestData, setLatestData] = useState({
+    kelembaban: 0,
+    status: 'Tidak Tersedia',
+    waktu: '00:00',
+  });
 
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/data')
-  //     .then(res => res.json())
-  //     .then(data => setData(data))
-  //     .catch(err => console.log(err));
-  // }, []);
+  useEffect(() => {
+    // Mengambil data dari backend menggunakan fetch
+    fetch('http://localhost:3000/kelembaban')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data dari backend:', data); // Log untuk memastikan data diambil dengan benar
 
-  // axios.get('http://localhost:3000/data')
-  //   .then(response => {
-  //     console.log('Data yang diterima:', response.data);
-  //     // Lakukan sesuatu dengan data yang diterima
-  //   })
-  //   .catch(error => {
-  //     console.error('Ada masalah saat fetching data:', error);
-  //   });
+        if (data.length > 0) {
+          const latest = data[data.length - 1];
+          setLatestData({
+            kelembaban: latest.kelembaban,
+            status: latest.kelembaban < 40 ? 'Kering' : 'Lembab',
+            waktu: formatDateTime(latest.waktu),
+          });
 
-  fetch('http://localhost:3000/insert')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Data yang diterima:', data);
-    })
-    .catch(error => {
-      console.error('Ada masalah saat fetching data:', error);
+          setChartData(data.map((item, index) => ({
+            id: index + 1,
+            kelembaban: item.kelembaban,
+            status: item.kelembaban < 40 ? 'Kering' : 'Lembab',
+            waktu: formatDateTime(item.waktu),
+          })));
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+  // Fungsi untuk memformat waktu
+  const formatDateTime = (datetime) => {
+    const date = new Date(datetime);
+    const formattedDate = date.toLocaleDateString('id-ID', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
     });
-
-
-
-  const [progress, setProgress] = useState(50)
-
-  const handleInputChange = (e) => {
-    setProgress(e.target.value)
-  }
+    const formattedTime = date.toLocaleTimeString('id-ID', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    return `${formattedDate}, ${formattedTime}`;
+  };
 
   return (
     <main className='px-3 py-10'>
       <h1 className='text-3xl font-utama text-raven2 font-bold mb-7'>Statistik Data</h1>
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-7 justify-center gap-x-7 mb-24 lg:mx-auto'>
-        <div className=' py-5 rounded-xl bg-[#609966] w-full h-72 flex justify-center items-center relative'>
-          <h1 className='text-white font-utama text-lg absolute top-5 left-5'>Tingkat kelembapan</h1>
-          <SemiCircularProgressBar progress={35} />
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-7 justify-center gap-x-7 mb-16 lg:mx-auto'>
+        <div className='py-5 rounded-xl bg-[#609966] w-full h-72 flex justify-center items-center relative'>
+          <h1 className='text-white font-utama text-lg absolute top-5 left-5'>Tingkat kelembaban</h1>
+          <SemiCircularProgressBar progress={latestData.kelembaban} />
         </div>
         <div className='flex justify-between items-start gap-x-5 rounded-xl w-full h-32 relative lg:h-full'>
-          <div className='flex justify-center relative items-center w-full h-full rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 bg-gray-900'>
+          <div className='flex justify-center relative items-center w-full h-full rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 bg-gray-900 px-2'>
             <h1 className='font-utama text-raven2 absolute top-3 left-3'>Status</h1>
-            <h2 className='text-3xl font-utama text-raven2'>Kering</h2>
+            <h2 className='text-2xl text-center font-utama text-raven2'>{latestData.status}</h2>
           </div>
-          <div className='bg-gray-900 flex justify-center relative items-center w-full h-full rounded-xl  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
+          <div className='bg-gray-900 flex justify-center relative items-center w-full h-full rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 px-2'>
             <h1 className='font-utama text-raven2 absolute top-3 left-3'>Time</h1>
-            <h2 className='text-3xl font-utama text-raven2'>00:00</h2>
+            <h2 className='text-md text-center font-utama text-raven2'>{latestData.waktu}</h2>
           </div>
         </div>
-        {/* <div className='py-5 rounded-xl bg-gray-500 w-full h-72 flex justify-center items-center bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
-          <SimpleBarChart dataGrafik={chartData}></SimpleBarChart>
-        </div>
-        <div className='py-5 rounded-xl bg-gray-500 w-full flex justify-center h-72 items-center bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
-          <SimpleAreaChart className='max-w-xl' dataGrafik={chartData}></SimpleAreaChart>
-        </div> */}
-        {/* <div className='py-5 rounded-xl aspect-[4/3] bg-gray-500 w-full flex justify-center items-center max-w-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
-          <SimpleAreaChart className='max-w-xl' dataGrafik={chartData}></SimpleAreaChart>
-        </div> */}
-        {/* <div className='py-5 rounded-xl aspect-[4/3] bg-gray-500 w-full flex justify-center items-center max-w-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
-          <CompossedBar className='max-w-xl' dataGrafik={chartData}></CompossedBar>
-        </div> */}
       </div>
-      <div className='flex flex-col  gap-x-10 '>
+      <div className='flex flex-col gap-x-10'>
         <h1 className='text-3xl font-utama text-raven2 font-bold mb-7'>History Data</h1>
         <Table className="max-w-2xl mx-auto border overflow-x-auto rounded-lg overflow-hidden">
-          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader className="bg-[#609966]">
             <TableRow>
               <TableHead className="w-[100px] text-putih">No</TableHead>
-              <TableHead className="text-putih">Kelemababan</TableHead>
+              <TableHead className="text-putih">Kelembaban</TableHead>
               <TableHead className="text-putih">Status</TableHead>
               <TableHead className="text-right text-putih">Time</TableHead>
             </TableRow>
@@ -162,47 +95,15 @@ export const Main = () => {
               {chartData.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium text-raven font-poppins">{item.id}</TableCell>
-                  <TableCell className="text-raven font-poppins">{item.name}</TableCell>
-                  <TableCell className="font-medium text-raven font-poppins">{item.uv}</TableCell>
-                  <TableCell className="text-raven font-poppins">{item.pv}</TableCell>
-                  {/* <TableCell className="text-raven font-poppins">{item.pv}</TableCell>
-                  <TableCell className="text-right text-raven font-poppins">{item.amt}</TableCell> */}
+                  <TableCell className="text-raven font-poppins">{item.kelembaban}</TableCell>
+                  <TableCell className="font-medium text-raven font-poppins">{item.status}</TableCell>
+                  <TableCell className="text-raven font-poppins text-right">{item.waktu}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           )}
         </Table>
       </div>
-      {/* <input
-          type="range"
-          min="0"
-          max="100"
-          value={progress}
-          onChange={handleInputChange}
-          className="mt-4 w-64"
-        /> */}
-      {/* <div className="overflow-x-auto">
-        <table className="table border">
-          <thead>
-            <tr className='bg-primary'>
-              <th className=' font-utama'>No</th>
-              <th className='text-white font-utama uppercase'>Temprature</th>
-              <th className='text-slate-100 uppercase'>Temprature</th>
-              <th className=''>waktu</th>
-            </tr>
-          </thead>
-          <tbody>
-            {chartData.map((item) => (
-              <tr key={item.id}>
-                <th className='text-slate-100 font-utama'>{item.id}</th>
-                <td className='text-slate-100'>{item.uv}</td>
-                <td className='text-slate-100'>{item.pv}</td>
-                <td className='text-slate-100'>{item.waktu}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div> */}
     </main>
   );
-};
+}

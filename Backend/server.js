@@ -1,51 +1,44 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const mysql = require("mysql");
+const express = require('express');
+const mysql = require('mysql');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
-const port = 3000;
+app.use(bodyParser.json());
+app.use(cors()); // Menambahkan middleware CORS
 
-// Konfigurasi koneksi MySQL
+// Konfigurasi koneksi ke database
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "weight_data",
+  host: 'localhost',
+  user: 'root', // Ganti dengan username database MySQL Anda
+  password: '', // Ganti dengan password database MySQL Anda
+  database: 'tetes_air'
 });
 
-// Connect ke database MySQL
+// Menghubungkan ke database
 db.connect((err) => {
   if (err) {
-    throw err;
+    console.error('Koneksi ke database gagal:', err);
+  } else {
+    console.log('Terhubung ke database MySQL');
   }
-  console.log("Connected to database");
 });
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.post("/insert", (req, res) => {
-  let weight = req.body.weight;
-
-  if (weight < 0) {
-    weight = 0;
-  }
-
-  let sql = "INSERT INTO weights (weight) VALUES (?)";
-  db.query(sql, [weight], (err, result) => {
-    if (err) throw err;
-    console.log("Data inserted");
-    res.send("Data inserted");
-  });
-});
-
-app.get("/data", (req, res) => {
-  let sql = "SELECT * FROM weights ORDER BY timestamp DESC";
+// Endpoint untuk mendapatkan data dari tabel kelembaban
+app.get('/kelembaban', (req, res) => {
+  const sql = 'SELECT * FROM kelembaban';
   db.query(sql, (err, results) => {
-    if (err) throw err;
-    res.json(results);
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      console.log('Data yang diambil:', results); // Log data yang diambil
+      res.json(results);
+    }
   });
 });
 
+// Menjalankan server pada port 3000
+const port = 3000;
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server berjalan di http://localhost:${port}`);
 });
