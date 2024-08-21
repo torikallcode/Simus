@@ -18,23 +18,30 @@ export const Main = () => {
   });
 
   useEffect(() => {
-    fetch('http://localhost:3000/kelembaban')
+    fetch('http://192.168.1.19:8000/kelembaban')
       .then(response => response.json())
       .then(data => {
         console.log('Data dari backend:', data);
+
+        const getStatus = (kelembaban) => {
+          if (kelembaban <= 20) return 'Kering';
+          if (kelembaban <= 49) return 'Kurang Lembab';
+          if (kelembaban <= 70) return 'Cukup Lembab';
+          return 'Sangat Lembab';
+        };
 
         if (data.length > 0) {
           const latest = data[data.length - 1];
           setLatestData({
             kelembaban: latest.kelembaban,
-            status: latest.kelembaban < 40 ? 'Kering' : 'Lembab',
+            status: getStatus(latest.kelembaban),
             waktu: formatDateTime(latest.waktu),
           });
 
           setChartData(data.map((item, index) => ({
             id: index + 1,
             kelembaban: item.kelembaban,
-            status: item.kelembaban < 40 ? 'Kering' : 'Lembab',
+            status: getStatus(item.kelembaban),
             waktu: formatDateTime(item.waktu),
           })));
         }
@@ -43,6 +50,7 @@ export const Main = () => {
         console.error('Error fetching data:', error);
       });
   }, []);
+
 
   const formatDateTime = (datetime) => {
     const date = new Date(datetime);
