@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const SemiCircularProgressBar = ({ progress }) => {
   const radius = 40; // Radius lingkaran
   const circumference = Math.PI * radius; // Keliling setengah lingkaran
-  const offset = circumference - (progress / 500) * circumference; // Offset untuk menentukan progress
+  const offset = circumference - (progress / 100) * circumference; // Offset untuk menentukan progress
 
   return (
     <div className="relative flex justify-center items-center w-full">
@@ -32,7 +32,7 @@ const SemiCircularProgressBar = ({ progress }) => {
             a ${radius},${radius} 0 1,1 ${radius * 2},0
           `}
           fill="none"
-          stroke="#34d399"
+          stroke="#40513B"
           strokeWidth="10"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
@@ -41,7 +41,7 @@ const SemiCircularProgressBar = ({ progress }) => {
         />
       </svg>
       <div className="absolute text-3xl bottom-14 font-medium text-putih font-utama">
-        {Math.round(progress)}ml
+        {Math.round(progress)}%
       </div>
     </div>
   );
