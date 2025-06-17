@@ -117,39 +117,39 @@ export const Main = () => {
 
   return (
     <main className='px-3 py-10 pb-[100rem]'>
-      <h1 className='text-3xl font-utama text-raven2 font-bold mb-10'>Statistik Data</h1>
-      <div className='grid grid-cols-1 lg:grid-cols-3 gap-7 justify-center gap-x-7 mb-24'>
-        <div className=' py-5 rounded-xl bg-gradient-to-r from-biru to-blue-500 w-full h-72 flex justify-center items-center relative'>
-          <h1 className='text-white font-utama text-lg absolute top-5 left-5'>Volume</h1>
+      <h1 className='mb-10 text-3xl font-bold font-utama text-raven2'>Statistik Data</h1>
+      <div className='grid justify-center grid-cols-1 mb-24 lg:grid-cols-3 gap-7 gap-x-7'>
+        <div className='relative flex items-center justify-center w-full py-5 rounded-xl bg-gradient-to-r from-biru to-blue-500 h-72'>
+          <h1 className='absolute text-lg text-white font-utama top-5 left-5'>Volume</h1>
           <SemiCircularProgressBar progress={375} />
         </div>
-        <div className='flex justify-between items-start gap-x-5 rounded-xl w-full h-32 relative'>
-          <div className='flex justify-center relative items-center w-full h-full rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 bg-gray-900'>
-            <h1 className='font-utama text-raven2 absolute top-3 left-3'>Prediksi</h1>
+        <div className='relative flex items-start justify-between w-full h-32 gap-x-5 rounded-xl'>
+          <div className='relative flex items-center justify-center w-full h-full bg-gray-900 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
+            <h1 className='absolute font-utama text-raven2 top-3 left-3'>Prediksi</h1>
             <h2 className='text-3xl font-utama text-raven2'>2.5 jam</h2>
           </div>
-          <div className='bg-gray-900 flex justify-center relative items-center w-full h-full rounded-xl  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
-            <h1 className='font-utama text-raven2 absolute top-3 left-3'>laju</h1>
+          <div className='relative flex items-center justify-center w-full h-full bg-gray-900 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
+            <h1 className='absolute font-utama text-raven2 top-3 left-3'>laju</h1>
             <h2 className='text-3xl font-utama text-raven2'>3s</h2>
 
           </div>
         </div>
-        {/* <div className='py-5 rounded-xl bg-gray-500 w-full h-72 flex justify-center items-center bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
+        <div className='flex items-center justify-center w-full py-5 bg-gray-500 rounded-xl h-72 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
           <SimpleBarChart dataGrafik={chartData}></SimpleBarChart>
         </div>
-        <div className='py-5 rounded-xl bg-gray-500 w-full flex justify-center h-72 items-center bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
+        <div className='flex items-center justify-center w-full py-5 bg-gray-500 rounded-xl h-72 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
           <SimpleAreaChart className='max-w-xl' dataGrafik={chartData}></SimpleAreaChart>
-        </div> */}
-        {/* <div className='py-5 rounded-xl aspect-[4/3] bg-gray-500 w-full flex justify-center items-center max-w-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
+        </div>
+        <div className='py-5 rounded-xl aspect-[4/3] bg-gray-500 w-full flex justify-center items-center max-w-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
           <SimpleAreaChart className='max-w-xl' dataGrafik={chartData}></SimpleAreaChart>
-        </div> */}
-        {/* <div className='py-5 rounded-xl aspect-[4/3] bg-gray-500 w-full flex justify-center items-center max-w-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
+        </div>
+        <div className='py-5 rounded-xl aspect-[4/3] bg-gray-500 w-full flex justify-center items-center max-w-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10'>
           <CompossedBar className='max-w-xl' dataGrafik={chartData}></CompossedBar>
-        </div> */}
+        </div>
       </div>
-      <div className='flex flex-col  gap-x-10 '>
-        <h1 className='text-3xl font-utama text-raven2 font-bold mb-10'>History Data</h1>
-        <Table className="max-w-2xl mx-auto border overflow-x-auto">
+      <div className='flex flex-col gap-x-10 '>
+        <h1 className='mb-10 text-3xl font-bold font-utama text-raven2'>History Data</h1>
+        <Table className="max-w-2xl mx-auto overflow-x-auto border">
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader className="bg-biru">
             <TableRow>
@@ -179,15 +179,15 @@ export const Main = () => {
           max="100"
           value={progress}
           onChange={handleInputChange}
-          className="mt-4 w-64"
+          className="w-64 mt-4"
         /> */}
       {/* <div className="overflow-x-auto">
         <table className="table border">
           <thead>
             <tr className='bg-primary'>
               <th className=' font-utama'>No</th>
-              <th className='text-white font-utama uppercase'>Temprature</th>
-              <th className='text-slate-100 uppercase'>Temprature</th>
+              <th className='text-white uppercase font-utama'>Temprature</th>
+              <th className='uppercase text-slate-100'>Temprature</th>
               <th className=''>waktu</th>
             </tr>
           </thead>
